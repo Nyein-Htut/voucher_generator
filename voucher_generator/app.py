@@ -6,7 +6,7 @@ import uuid
 
 app = Flask(__name__)
 
-GENERATED_FOLDER = "static/generated" 
+GENERATED_FOLDER = "static/generated"
 
 if not os.path.exists(GENERATED_FOLDER):
     os.makedirs(GENERATED_FOLDER)
@@ -48,9 +48,9 @@ def generate():
         total = subtotal + delivery
 
         # ----------------------------------------------------
-        # SAFE LOGO SIZE CALCULATION
+        # SAFE LOGO ASPECT RATIO RESOLUTION ARCHITECTURE
         # ----------------------------------------------------
-        logo_w, logo_h = 600, 150 # Default fallback box if logo doesn't load
+        logo_w, logo_h = 600, 150 
         logo_exists = False
         
         if os.path.exists("static/logo.jpg"):
@@ -60,9 +60,9 @@ def generate():
                     logo_h = int((600 / orig_w) * orig_h)
                     logo_exists = True
             except Exception as e:
-                print(f"Error reading logo image: {e}")
+                print(f"Error reading logo image content stream: {e}")
 
-        # Dynamic canvas sizing formulas
+        # Compute dynamic image canvas scaling rules sequentially
         calculated_y = 100 + logo_h + 80  
         calculated_y += (65 * 3) + 42 + 20 
         calculated_y += 40 + 50            
@@ -82,7 +82,6 @@ def generate():
 
         font_path = "static/fonts/NotoSansSC-Regular.ttf"
         
-        # Fallback font handling if NotoSans is missing in production environment
         if os.path.exists(font_path):
             font_sm = ImageFont.truetype(font_path, 26)
             font_reg = ImageFont.truetype(font_path, 28)
@@ -91,11 +90,10 @@ def generate():
         else:
             font_sm = font_reg = font_med = font_lg = ImageFont.load_default()
 
-        # Draw Frame Borders
+        # Framed Borders
         draw.rectangle([40, 40, canvas_width - 40, canvas_height - 40], outline=BORDER_COLOR, width=1)
         draw.rectangle([50, 50, canvas_width - 50, canvas_height - 50], outline=BORDER_COLOR, width=2)
 
-        # Paste Logo safely if valid file exists, otherwise render clean header text
         if logo_exists:
             logo = Image.open("static/logo.jpg")
             logo = logo.resize((600, logo_h), Image.Resampling.LANCZOS)
@@ -177,7 +175,7 @@ def generate():
         return jsonify({"success": True, "file_url": file_url})
 
     except Exception as server_error:
-        print(f"Critical server pipeline error: {server_error}")
+        print(f"Critical execution block trace failure: {server_error}")
         return jsonify({"success": False, "error": str(server_error)}), 500
 
 
