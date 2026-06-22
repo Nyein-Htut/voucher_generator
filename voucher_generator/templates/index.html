@@ -4,6 +4,7 @@
     <title>Memory Cake Voucher</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
@@ -45,8 +46,11 @@
         .btn-primary-custom:hover {
             background: #c6c1c1;
         }
-        .remove-btn {
-            cursor: pointer;
+        .preview-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -59,7 +63,7 @@
             <div class="sub-text">Voucher Generator / 订单生成系统</div>
         </div>
 
-        <form action="/generate" method="POST">
+        <form id="voucherForm">
             <div class="section-title">Customer Info</div>
             <div class="mb-3">
                 <input type="text" name="customer" class="form-control form-control-lg"
@@ -82,7 +86,7 @@
                             <input type="number" name="qty[]" value="1" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-6">
-                            <label class="small text-muted m-0">Unit Price (MMK)</label>
+                            <label class="small text-muted m-0">Price (MMK)</label>
                             <input type="number" name="price[]" class="form-control form-control-sm" required>
                         </div>
                     </div>
@@ -98,13 +102,34 @@
                 Estimated Total: Auto Calculated in JPG
             </div>
 
-            <button class="btn btn-primary-custom w-100">
+            <button type="submit" class="btn btn-primary-custom w-100">
                 Generate Voucher JPG
             </button>
         </form>
     </div>
 </div>
 
+<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Voucher Preview / 凭证预览</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center bg-light">
+                <p class="text-muted small mb-3">You can take a screenshot or use the download button below.</p>
+                <img id="voucherPreviewImage" src="" alt="Voucher Preview" class="preview-img mb-3">
+                <div class="d-flex justify-content-center gap-2">
+                    <a id="downloadButton" href="#" download="voucher.jpg" class="btn btn-success px-4 py-2">
+                        <i class="bi bi-download me-2"></i> Download Voucher
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 function addItemRow() {
     const container = document.getElementById('items-container');
@@ -128,7 +153,35 @@ function addItemRow() {
     `;
     container.appendChild(newRow);
 }
+
+document.getElementById('voucherForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('/generate', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            document.getElementById('voucherPreviewImage').src = data.file_url;
+            document.getElementById('downloadButton').href = data.file_url;
+            
+            // FIXED: Using standard lowercase 'bootstrap' instance method
+            const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            previewModal.show();
+        } else {
+            alert("Error: " + (data.error || "Could not generate voucher."));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Server communication failed. Check your app console logs.");
+    });
+});
 </script>
 
 </body>
-</html> 
+</html>
