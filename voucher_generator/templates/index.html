@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Memory Cake Voucher</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -155,7 +156,7 @@ function addItemRow() {
 }
 
 document.getElementById('voucherForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+    e.preventDefault(); // Freezes the default page change process
     
     const formData = new FormData(this);
     
@@ -163,22 +164,27 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Server returned HTTP Error Status ' + response.status);
+        }
+        return response.json();
+    })
     .then(data => {
-        if(data.success) {
+        if (data.success) {
             document.getElementById('voucherPreviewImage').src = data.file_url;
             document.getElementById('downloadButton').href = data.file_url;
             
-            // FIXED: Using standard lowercase 'bootstrap' instance method
-            const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            const modalEl = document.getElementById('previewModal');
+            const previewModal = new bootstrap.Modal(modalEl);
             previewModal.show();
         } else {
-            alert("Error: " + (data.error || "Could not generate voucher."));
+            alert("Error: " + (data.error || "Could not generate voucher layout image."));
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert("Server communication failed. Check your app console logs.");
+        alert("Server communication dropped. Please review your hosting application log streams.");
     });
 });
 </script>
