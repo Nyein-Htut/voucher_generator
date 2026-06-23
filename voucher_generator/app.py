@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, url_for
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
+from zoneinfo import ZoneInfo  # <--- Added for timezone support
 import os
 import uuid
 
@@ -107,10 +108,13 @@ def generate():
         label_col_x = 120  
         val_col_x = 420    
 
+        # Get current time in Myanmar timezone (Asia/Yangon)
+        mm_time = datetime.now(ZoneInfo("Asia/Yangon"))
+
         meta_items = [
             ("TELEPHONE", "09684875920 / 09261244508"),
             ("ADDRESS", "F-20/ Shwe Sapal 2 Street/ FMI City/\nHlaing Thar Yar Township/ Yangon"),
-            ("DATE / TIME", datetime.now().strftime("%d %B %Y — %H:%M:%S")),
+            ("DATE / TIME", mm_time.strftime("%d %B %Y — %H:%M:%S")), # <--- Updated
             ("CLIENT", customer.upper())  
         ]
 
