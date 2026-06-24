@@ -7,61 +7,193 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
+        @keyframes rowFadeIn {
+            from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        @keyframes ambientGlow {
+            0% { box-shadow: 0 15px 35px rgba(44, 36, 33, 0.04), 0 0 0 0px rgba(222, 195, 174, 0); }
+            50% { box-shadow: 0 15px 35px rgba(44, 36, 33, 0.06), 0 0 12px 2px rgba(222, 195, 174, 0.15); }
+            100% { box-shadow: 0 15px 35px rgba(44, 36, 33, 0.04), 0 0 0 0px rgba(222, 195, 174, 0); }
+        }
+
         body {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            background: radial-gradient(circle at top, #fcfbfa 0%, #f3efe9 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
+            color: #4a3e3d;
         }
+        
         .voucher-card {
-            border-radius: 16px;
-            border: none;
+            border-radius: 24px;
+            border: 1px solid rgba(142, 126, 115, 0.1);
+            background: #ffffff;
+            animation: ambientGlow 6s infinite ease-in-out;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        
         .brand-header {
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #2c2421;
+            font-size: 1.6rem;
+            transition: transform 0.3s ease;
         }
+        .brand-header:hover {
+            transform: scale(1.02);
+        }
+
         .sub-text {
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
-        .section-title {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            color: #8e7e73;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #495057;
-            margin-top: 15px;
+            letter-spacing: 2px;
+            font-weight: 500;
         }
+
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #8e7e73;
+            margin-top: 28px;
+            margin-bottom: 14px;
+        }
+
+        .form-label-custom {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6e5d53;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            border: 1px solid #e6e1da;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            color: #2c2421;
+            background-color: #fafaf9;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .form-control:focus {
+            background-color: #ffffff;
+            border-color: #c5b4a5;
+            box-shadow: 0 0 0 4px rgba(197, 180, 165, 0.25), 0 4px 10px rgba(197, 180, 165, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-control-lg {
+            border-radius: 14px;
+            font-size: 1rem;
+        }
+
+        .item-row {
+            background: #faf8f6 !important;
+            border: 1px solid #f1eeea !important;
+            border-radius: 16px !important;
+            padding: 20px !important;
+            margin-bottom: 16px !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+            animation: rowFadeIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
         .total-box {
-            background: #212529;
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
+            background: #fdfcfb;
+            border: 1px dashed #dec3ae;
+            color: #8a6f59;
+            padding: 16px;
+            border-radius: 14px;
             text-align: center;
             font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
-        .btn-primary-custom {
-            background: #f6f3f3;
+        .total-box:hover {
+            background: #faf6f2;
+            border-color: #c5b4a5;
+            box-shadow: 0 0 12px rgba(222, 195, 174, 0.2);
+        }
+
+        .btn-premium {
+            background: #2c2421;
+            color: #ffffff;
             border: none;
-            padding: 12px;
+            padding: 14px;
             font-weight: 600;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(44, 36, 33, 0.15);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .btn-primary-custom:hover {
-            background: #c6c1c1;
+
+        .btn-premium:hover {
+            background: #4a3e3d;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(44, 36, 33, 0.25), 0 0 14px rgba(222, 195, 174, 0.3);
         }
+        
+        .btn-premium:active {
+            transform: translateY(0);
+        }
+
+        .btn-add-item {
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 6px 16px;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #6e5d53;
+            border: 1px solid #e6e1da;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add-item:hover {
+            background: #faf8f6;
+            border-color: #c5b4a5;
+            color: #2c2421;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+        }
+
+        .btn-delete {
+            color: #a18e83;
+            transition: all 0.2s ease;
+            background: none;
+            border: none;
+            padding: 4px 8px;
+        }
+
+        .btn-delete:hover {
+            color: #b0413e;
+            transform: scale(1.15) rotate(3deg);
+        }
+
         .preview-img {
             max-width: 100%;
             height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(44,36,33,0.08);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .preview-img:hover {
+            transform: scale(1.015);
         }
     </style>
 </head>
 <body>
 
 <div class="container d-flex justify-content-center align-items-center py-5">
-    <div class="card shadow-lg p-4 voucher-card" style="max-width: 650px; width: 100%;">
-        <div class="text-center mb-3">
-            <h3 class="brand-header">MEMORY CAKE</h3>
-            <div class="sub-text">Voucher Generator / 订单生成系统</div>
+    <div class="card p-4 p-md-5 voucher-card" style="max-width: 600px; width: 100%;">
+        <div class="text-center mb-4">
+            <h3 class="brand-header m-0">MEMORY CAKE</h3>
+            <div class="sub-text mt-2">Voucher Generator / 订单生成系统</div>
         </div>
 
         <form id="voucherForm">
@@ -71,39 +203,41 @@
                        placeholder="Customer / 客户姓名" required>
             </div>
 
-            <div class="section-title d-flex justify-content-between align-items-center mb-2">
+            <div class="section-title d-flex justify-content-between align-items-center">
                 <span>Order Details</span>
-                <button type="button" class="btn btn-sm btn-dark" onclick="addItemRow()">+ Add Item</button>
+                <button type="button" class="btn btn-add-item" onclick="addItemRow()">
+                    <i class="bi bi-plus-lg me-1"></i> Add Item
+                </button>
             </div>
 
             <div id="items-container">
-                <div class="item-row border p-2 mb-2 rounded bg-light">
-                    <div class="mb-2">
-                        <input type="text" name="item[]" class="form-control form-control-sm" placeholder="Item Name / 商品名称" required>
+                <div class="item-row">
+                    <div class="mb-3">
+                        <input type="text" name="item[]" class="form-control" placeholder="Item Name / 商品名称" required>
                     </div>
-                    <div class="row g-2">
+                    <div class="row g-3">
                         <div class="col-6">
-                            <label class="small text-muted m-0">Quantity / 数量</label>
-                            <input type="number" name="qty[]" value="1" class="form-control form-control-sm" required>
+                            <label class="form-label-custom">Quantity / 数量</label>
+                            <input type="number" name="qty[]" value="1" class="form-control" required>
                         </div>
                         <div class="col-6">
-                            <label class="small text-muted m-0">Price (MMK)</label>
-                            <input type="number" name="price[]" class="form-control form-control-sm" required>
+                            <label class="form-label-custom">Price (MMK)</label>
+                            <input type="number" name="price[]" class="form-control" placeholder="0" required>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="mb-3 mt-3">
-                <label class="form-label font-weight-bold">Delivery Fee / 车费</label>
+            <div class="mb-4 mt-3">
+                <label class="form-label-custom">Delivery Fee / 车费</label>
                 <input type="number" name="delivery" value="0" class="form-control" required>
             </div>
 
-            <div class="total-box mb-3">
-                Estimated Total: Auto Calculated in JPG
+            <div class="total-box mb-4">
+                <i class="bi bi-clock-history me-2"></i>Estimated Total: Auto Calculated in JPG
             </div>
 
-            <button type="submit" class="btn btn-primary-custom w-100">
+            <button type="submit" class="btn btn-premium w-100">
                 Generate Voucher JPG
             </button>
         </form>
@@ -112,16 +246,16 @@
 
 <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Voucher Preview / 凭证预览</h5>
+        <div class="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
+            <div class="modal-header border-0 bg-white pt-4 px-4">
+                <h5 class="modal-title fw-bold text-dark">Voucher Preview / 凭证预览</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body text-center bg-light">
+            <div class="modal-body text-center bg-light p-4">
                 <p class="text-muted small mb-3">You can take a screenshot or use the download button below.</p>
-                <img id="voucherPreviewImage" src="" alt="Voucher Preview" class="preview-img mb-3">
+                <img id="voucherPreviewImage" src="" alt="Voucher Preview" class="preview-img mb-4">
                 <div class="d-flex justify-content-center gap-2">
-                    <a id="downloadButton" href="#" download="voucher.jpg" class="btn btn-success px-4 py-2">
+                    <a id="downloadButton" href="#" download="voucher.jpg" class="btn btn-premium px-4 py-2">
                         <i class="bi bi-download me-2"></i> Download Voucher
                     </a>
                 </div>
@@ -135,20 +269,22 @@
 function addItemRow() {
     const container = document.getElementById('items-container');
     const newRow = document.createElement('div');
-    newRow.className = 'item-row border p-2 mb-2 rounded bg-light';
+    newRow.className = 'item-row';
     newRow.innerHTML = `
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <input type="text" name="item[]" class="form-control form-control-sm me-2" placeholder="Item Name / 商品名称" required>
-            <button type="button" class="btn btn-sm btn-danger remove-btn" onclick="this.closest('.item-row').remove()">✕</button>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <input type="text" name="item[]" class="form-control me-2" placeholder="Item Name / 商品名称" required>
+            <button type="button" class="btn-delete" onclick="this.closest('.item-row').remove()">
+                <i class="bi bi-trash3-fill fs-5"></i>
+            </button>
         </div>
-        <div class="row g-2">
+        <div class="row g-3">
             <div class="col-6">
-                <label class="small text-muted m-0">Quantity / 数量</label>
-                <input type="number" name="qty[]" value="1" class="form-control form-control-sm" required>
+                <label class="form-label-custom">Quantity / 数量</label>
+                <input type="number" name="qty[]" value="1" class="form-control" required>
             </div>
             <div class="col-6">
-                <label class="small text-muted m-0">Price (MMK)</label>
-                <input type="number" name="price[]" class="form-control form-control-sm" required>
+                <label class="form-label-custom">Price (MMK)</label>
+                <input type="number" name="price[]" class="form-control" placeholder="0" required>
             </div>
         </div>
     `;
@@ -156,7 +292,7 @@ function addItemRow() {
 }
 
 document.getElementById('voucherForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Freezes the default page change process
+    e.preventDefault(); 
     
     const formData = new FormData(this);
     
