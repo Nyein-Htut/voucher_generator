@@ -137,7 +137,7 @@ def generate():
 
         col_item_x = 100
         col_unit_x = 550
-        col_price_x = 750   
+        col_price_x = 680   
         col_total_x = 1100  
 
         draw.text((col_item_x, y), "ITEM DESCRIPTION", fill=MUTED_COLOR, font=font_sm)
