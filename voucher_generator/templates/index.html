@@ -7,38 +7,154 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
+        /* CSS Variables for Dynamic Theme Switching */
+        :root, body[data-theme="light"] {
+            --bg-gradient: radial-gradient(circle at top, #fcfbfa 0%, #f3efe9 100%);
+            --text-main: #4a3e3d;
+            --card-bg: #ffffff;
+            --card-border: rgba(142, 126, 115, 0.1);
+            --card-glow: 0 15px 35px rgba(44, 36, 33, 0.04);
+            --brand-color: #2c2421;
+            --sub-text-color: #8e7e73;
+            --form-label-color: #6e5d53;
+            --input-border: #e6e1da;
+            --input-bg: #fafaf9;
+            --input-focus-bg: #ffffff;
+            --input-focus-border: #c5b4a5;
+            --input-focus-shadow: rgba(197, 180, 165, 0.25);
+            --input-text: #2c2421;
+            --input-placeholder: #a19286;
+            --row-bg: #faf8f6;
+            --row-border: #f1eeea;
+            --row-shadow: 0 2px 6px rgba(0,0,0,0.01);
+            --total-bg: #fdfcfb;
+            --total-border: #dec3ae;
+            --total-text: #8a6f59;
+            --total-hover-bg: #faf6f2;
+            --btn-premium-bg: #2c2421;
+            --btn-premium-text: #ffffff;
+            --btn-premium-hover-bg: #4a3e3d;
+            --btn-premium-shadow: rgba(44, 36, 33, 0.15);
+            --btn-premium-hover-shadow: rgba(44, 36, 33, 0.25);
+            --btn-premium-glow: rgba(222, 195, 174, 0.3);
+            --btn-add-bg: #ffffff;
+            --btn-add-border: #e6e1da;
+            --btn-add-text: #6e5d53;
+            --btn-add-hover-bg: #faf8f6;
+            --btn-add-hover-border: #c5b4a5;
+            --btn-add-hover-text: #2c2421;
+            --btn-delete-color: #a18e83;
+            --modal-bg: #ffffff;
+            --modal-body-bg: #f8f9fa;
+            --modal-border: rgba(0,0,0,0.1);
+            --modal-text: #212529;
+            --close-filter: none;
+            --preview-shadow: 0 15px 35px rgba(44,36,33,0.08);
+        }
+
+        body[data-theme="dark"] {
+            --bg-gradient: radial-gradient(circle at top, #2e2421 0%, #1c1513 100%);
+            --text-main: #f4ebe1;
+            --card-bg: #17100e;
+            --card-border: rgba(222, 195, 174, 0.12);
+            --card-glow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --brand-color: #ffffff;
+            --sub-text-color: #dec3ae;
+            --form-label-color: #dec3ae;
+            --input-border: #e6e1da;
+            --input-bg: #f6e7d8;
+            --input-focus-bg: #ffffff;
+            --input-focus-border: #dec3ae;
+            --input-focus-shadow: rgba(222, 195, 174, 0.4);
+            --input-text: #2c2421;
+            --input-placeholder: #a19286;
+            --row-bg: #110b0a;
+            --row-border: rgba(222, 195, 174, 0.06);
+            --row-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            --total-bg: #110b0a;
+            --total-border: rgba(222, 195, 174, 0.25);
+            --total-text: #f4ebe1;
+            --total-hover-bg: #1a1210;
+            --btn-premium-bg: #dec3ae;
+            --btn-premium-text: #1a1311;
+            --btn-premium-hover-bg: #ebdccf;
+            --btn-premium-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            --btn-premium-hover-shadow: rgba(222, 195, 174, 0.2);
+            --btn-premium-glow: rgba(222, 195, 174, 0.2);
+            --btn-add-bg: rgba(222, 195, 174, 0.06);
+            --btn-add-border: rgba(222, 195, 174, 0.15);
+            --btn-add-text: #dec3ae;
+            --btn-add-hover-bg: rgba(222, 195, 174, 0.12);
+            --btn-add-hover-border: #dec3ae;
+            --btn-add-hover-text: #ffffff;
+            --btn-delete-color: #7a6b61;
+            --modal-bg: #17100e;
+            --modal-body-bg: #0f0a09;
+            --modal-border: rgba(222, 195, 174, 0.15);
+            --modal-text: #f4ebe1;
+            --close-filter: invert(1) grayscale(1) brightness(2);
+            --preview-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
         @keyframes rowFadeIn {
             from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
             to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
         @keyframes ambientGlow {
-            0% { box-shadow: 0 15px 35px rgba(44, 36, 33, 0.04), 0 0 0 0px rgba(222, 195, 174, 0); }
-            50% { box-shadow: 0 15px 35px rgba(44, 36, 33, 0.06), 0 0 12px 2px rgba(222, 195, 174, 0.15); }
-            100% { box-shadow: 0 15px 35px rgba(44, 36, 33, 0.04), 0 0 0 0px rgba(222, 195, 174, 0); }
+            0% { box-shadow: var(--card-glow), 0 0 0 0px rgba(222, 195, 174, 0); }
+            50% { box-shadow: var(--card-glow), 0 0 16px 2px rgba(222, 195, 174, 0.15); }
+            100% { box-shadow: var(--card-glow), 0 0 0 0px rgba(222, 195, 174, 0); }
         }
 
         body {
-            background: radial-gradient(circle at top, #fcfbfa 0%, #f3efe9 100%);
+            background: var(--bg-gradient);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
-            color: #4a3e3d;
+            color: var(--text-main);
+            transition: background 0.5s ease, color 0.5s ease;
+            position: relative;
+        }
+
+        /* Premium Theme Toggle Button */
+        .theme-toggle-btn {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1000;
+        }
+        .theme-toggle-btn:hover {
+            transform: scale(1.08) rotate(15deg);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
         }
         
         .voucher-card {
             border-radius: 24px;
-            border: 1px solid rgba(142, 126, 115, 0.1);
-            background: #ffffff;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
             animation: ambientGlow 6s infinite ease-in-out;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s ease, border 0.5s ease;
         }
         
         .brand-header {
             font-weight: 800;
             letter-spacing: 4px;
-            color: #2c2421;
+            color: var(--brand-color);
             font-size: 1.6rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, color 0.5s ease;
         }
         .brand-header:hover {
             transform: scale(1.02);
@@ -46,10 +162,11 @@
 
         .sub-text {
             font-size: 0.75rem;
-            color: #8e7e73;
+            color: var(--sub-text-color);
             text-transform: uppercase;
             letter-spacing: 2px;
             font-weight: 500;
+            transition: color 0.5s ease;
         }
 
         .section-title {
@@ -57,32 +174,38 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: #8e7e73;
+            color: var(--sub-text-color);
             margin-top: 28px;
             margin-bottom: 14px;
+            transition: color 0.5s ease;
         }
 
         .form-label-custom {
             font-size: 0.8rem;
             font-weight: 600;
-            color: #6e5d53;
+            color: var(--form-label-color);
             margin-bottom: 6px;
+            transition: color 0.5s ease;
         }
 
         .form-control {
-            border: 1px solid #e6e1da;
+            border: 1px solid var(--input-border);
             border-radius: 12px;
             padding: 12px 16px;
             font-size: 0.95rem;
-            color: #2c2421;
-            background-color: #fafaf9;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            color: var(--input-text);
+            background-color: var(--input-bg);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s ease;
+        }
+        .form-control::placeholder {
+            color: var(--input-placeholder);
         }
 
         .form-control:focus {
-            background-color: #ffffff;
-            border-color: #c5b4a5;
-            box-shadow: 0 0 0 4px rgba(197, 180, 165, 0.25), 0 4px 10px rgba(197, 180, 165, 0.1);
+            background-color: var(--input-focus-bg);
+            border-color: var(--input-focus-border);
+            color: var(--input-text);
+            box-shadow: 0 0 0 4px var(--input-focus-shadow), 0 4px 10px rgba(0, 0, 0, 0.05);
             transform: translateY(-1px);
         }
 
@@ -92,51 +215,52 @@
         }
 
         .item-row {
-            background: #faf8f6 !important;
-            border: 1px solid #f1eeea !important;
+            background: var(--row-bg) !important;
+            border: 1px solid var(--row-border) !important;
             border-radius: 16px !important;
             padding: 20px !important;
             margin-bottom: 16px !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+            box-shadow: var(--row-shadow);
             animation: rowFadeIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            transition: background 0.5s ease, border 0.5s ease, box-shadow 0.5s ease;
         }
 
         .total-box {
-            background: #fdfcfb;
-            border: 1px dashed #dec3ae;
-            color: #8a6f59;
+            background: var(--total-bg);
+            border: 1px dashed var(--total-border);
+            color: var(--total-text);
             padding: 16px;
             border-radius: 14px;
             text-align: center;
             font-weight: 600;
             font-size: 0.9rem;
             letter-spacing: 0.5px;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, background 0.5s ease, border 0.5s ease, color 0.5s ease;
         }
         .total-box:hover {
-            background: #faf6f2;
-            border-color: #c5b4a5;
-            box-shadow: 0 0 12px rgba(222, 195, 174, 0.2);
+            background: var(--total-hover-bg);
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 12px var(--btn-premium-glow);
         }
 
         .btn-premium {
-            background: #2c2421;
-            color: #ffffff;
+            background: var(--btn-premium-bg);
+            color: var(--btn-premium-text);
             border: none;
             padding: 14px;
-            font-weight: 600;
+            font-weight: 700;
             border-radius: 14px;
             font-size: 0.95rem;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 12px rgba(44, 36, 33, 0.15);
+            box-shadow: var(--btn-premium-shadow);
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .btn-premium:hover {
-            background: #4a3e3d;
-            color: #ffffff;
+            background: var(--btn-premium-hover-bg);
+            color: var(--btn-premium-text);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(44, 36, 33, 0.25), 0 0 14px rgba(222, 195, 174, 0.3);
+            box-shadow: var(--btn-premium-hover-shadow), 0 0 14px var(--btn-premium-glow);
         }
         
         .btn-premium:active {
@@ -148,22 +272,21 @@
             font-size: 0.75rem;
             padding: 6px 16px;
             border-radius: 10px;
-            background: #ffffff;
-            color: #6e5d53;
-            border: 1px solid #e6e1da;
-            transition: all 0.2s ease;
+            background: var(--btn-add-bg);
+            color: var(--btn-add-text);
+            border: 1px solid var(--btn-add-border);
+            transition: all 0.2s ease, background 0.5s ease, border 0.5s ease, color 0.5s ease;
         }
 
         .btn-add-item:hover {
-            background: #faf8f6;
-            border-color: #c5b4a5;
-            color: #2c2421;
+            background: var(--btn-add-hover-bg);
+            border-color: var(--btn-add-hover-border);
+            color: var(--btn-add-hover-text);
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.02);
         }
 
         .btn-delete {
-            color: #a18e83;
+            color: var(--btn-delete-color);
             transition: all 0.2s ease;
             background: none;
             border: none;
@@ -171,7 +294,7 @@
         }
 
         .btn-delete:hover {
-            color: #b0413e;
+            color: #ff6b6b;
             transform: scale(1.15) rotate(3deg);
         }
 
@@ -179,15 +302,33 @@
             max-width: 100%;
             height: auto;
             border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(44,36,33,0.08);
+            box-shadow: var(--preview-shadow);
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .preview-img:hover {
             transform: scale(1.015);
         }
+
+        .modal-content {
+            background: var(--modal-bg);
+            border: 1px solid var(--modal-border);
+            color: var(--modal-text);
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+        .modal-body {
+            background: var(--modal-body-bg) !important;
+            transition: background 0.5s ease;
+        }
+        .btn-close {
+            filter: var(--close-filter);
+        }
     </style>
 </head>
 <body>
+
+<button type="button" class="theme-toggle-btn" id="themeToggle" title="Toggle Light/Dark Mode">
+    <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+</button>
 
 <div class="container d-flex justify-content-center align-items-center py-5">
     <div class="card p-4 p-md-5 voucher-card" style="max-width: 600px; width: 100%;">
@@ -246,12 +387,12 @@
 
 <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
-            <div class="modal-header border-0 bg-white pt-4 px-4">
-                <h5 class="modal-title fw-bold text-dark">Voucher Preview / 凭证预览</h5>
+        <div class="modal-content rounded-4 overflow-hidden shadow-lg">
+            <div class="modal-header border-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold">Voucher Preview / 凭证预览</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body text-center bg-light p-4">
+            <div class="modal-body text-center p-4">
                 <p class="text-muted small mb-3">You can take a screenshot or use the download button below.</p>
                 <img id="voucherPreviewImage" src="" alt="Voucher Preview" class="preview-img mb-4">
                 <div class="d-flex justify-content-center gap-2">
@@ -266,6 +407,21 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+// Dynamic Light/Dark mode state control
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+
+themeToggle.addEventListener('click', () => {
+    const currentTheme = document.body.getAttribute('data-theme') || 'light';
+    if (currentTheme === 'light') {
+        document.body.setAttribute('data-theme', 'dark');
+        themeIcon.className = 'bi bi-sun-fill';
+    } else {
+        document.body.setAttribute('data-theme', 'light');
+        themeIcon.className = 'bi bi-moon-stars-fill';
+    }
+});
+
 function addItemRow() {
     const container = document.getElementById('items-container');
     const newRow = document.createElement('div');
